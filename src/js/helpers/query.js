@@ -8,7 +8,7 @@ PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 PREFIX gn: <http://www.geonames.org/ontology#>
 
 # tel de materiaalsoorten bij wapens
-SELECT ?title ?typeLabel ?long ?lat ?plaats ?picturePath (SAMPLE(?cho) as ?filtered)  (COUNT(?cho) AS ?choCount) WHERE {
+SELECT ?title ?typeLabel ?long ?lat ?plaats ?plaatsnaam ?land ?landNaam ?picturePath (SAMPLE(?cho) as ?filtered)  (COUNT(?cho) AS ?choCount) WHERE {
   # selecteer soorten wapens
   <https://hdl.handle.net/20.500.11840/termmaster12445> skos:narrower ?type .
   ?type skos:prefLabel ?typeLabel .
@@ -21,10 +21,13 @@ SELECT ?title ?typeLabel ?long ?lat ?plaats ?picturePath (SAMPLE(?cho) as ?filte
   
   ?plaats skos:exactMatch/wgs84:lat ?lat . #
   ?plaats skos:exactMatch/wgs84:long ?long .
+  ?plaats skos:prefLabel ?plaatsnaam.
+  ?plaats skos:exactMatch/gn:parentCountry ?land.
+  ?land gn:name ?landNaam.
 
 
 }
 
-LIMIT 1000`;
+LIMIT 10000`;
 
 export { query };

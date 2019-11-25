@@ -11,7 +11,7 @@ d3.tip = d3Tip;
 
 
 import { feature } from 'topojson';
-const weaponTip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d.title.value; });
+const weaponTip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d.title; });
 
 const svg = select('svg')
       .attr('width', window.innerWidth)
@@ -30,8 +30,9 @@ const url ="https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/service
 
 getData(url, query).then(data => {
   // console.log(data.results.bindings)
-  initD3(data.results.bindings)
-  // console.log(data)
+  initD3(data)
+  
+  console.log(data)
 	return data;
 }) 
 
@@ -41,7 +42,7 @@ function initD3(places){
 
   
 const cats = places.map((entry) => {
-  return entry.typeLabel.value;
+  return entry.weaponFunction;
 });
 
                       // console.log(d3)
@@ -59,7 +60,7 @@ g.append('path')
   
 
 	
-svg.call(zoom().scaleExtent([0.5, 5]).on('zoom', () => {
+svg.call(zoom().scaleExtent([0.5, 10]).on('zoom', () => {
   var transform = event.transform;
     // console.log(transform)
     // console.log(event.target)
@@ -71,13 +72,36 @@ svg.call(zoom().scaleExtent([0.5, 5]).on('zoom', () => {
  
 
 const sidebarWrapper = svg.append('g')
-  .attr("class", "sidebar-wrapper");
+  .attr("class", "sidebar-wrapper")
+  .style('transform', `translateX(${innerWidth - 400}px`)
+  .attr('height', window.innerHeight)
+  .attr('width', 400);
 
-  const sidebar = svg.append('rect')
-    .style('width', 400)
-    .style('height', window.innerHeight)
-    .style('background-color', 'black')
-    .style('transform', `translateX(${innerWidth - 400}px`);
+const sidebarWidth = sidebarWrapper.attr('width');
+const sidebarHeight = sidebarWrapper.attr('height');
+
+  const sidebar = sidebarWrapper.append('rect')
+    .attr('class', 'sidebar')
+    .attr('height', sidebarHeight)
+    .attr('width', sidebarWidth);
+
+    const sidebarContent = sidebarWrapper.append('g')
+      .attr('id', 'content')
+      .style('transform', `translate(${30}px, ${40}px`)
+      .attr('height', sidebarHeight -20)
+      .attr('width', sidebarWidth -20);
+
+  const title = sidebarContent.append('text')
+    .attr('id', 'title')
+    .text();
+
+  const herkomst = sidebarContent.append('text')
+    .attr('id', 'heritage')
+    .text('Plaats van geografische herkomst:')
+    .style('transform', `translateY(${(sidebarHeight / 3) * 1.5}px)`);
+
+    const img = sidebarContent.append('image')
+    .attr('class', 'img');
 
   
   const legendWrapper = svg.append('g')
@@ -121,71 +145,89 @@ Promise.all([
   tsv('https://unpkg.com/world-atlas@1.1.4/world/50m.tsv'),
   json('https://unpkg.com/world-atlas@1.1.4/world/50m.json')
 ]).then(([tsvData, topoJSONdata]) => {
-  		const countryName = tsvData.reduce((accumulator, row) => {
-        
-  			accumulator[row.iso_n3] = row.name;
-
-      		return accumulator;
-      }, {});
-  
-
-  
-			const country = feature(topoJSONdata, topoJSONdata.objects.countries);
-        g.selectAll('path')
-          .data(country.features)
-          .enter()
-          .append('path')
-          .attr('class', 'country')
-          .attr('d', d => pathGenerator(d))
-        // .append('title')
-        // 	.text(d => countryName[d.id]);
-  
-  	g.selectAll('circle')
-  		.data(places)
-          .enter()
-      .append('g')
-  			.attr('id', d => d.title.value)
-      .append("circle")
-          .attr("r", 1)
-          .attr("transform", function(d) {
-
-
-          return "translate(" + projection([
-            d.long.value,
-            d.lat.value
-          ]) + ")";
-          })
-        .style('fill', function(d){
-
-          return colorscale(d.typeLabel.value)
-        })
-  			.on('mouseenter', weaponTip.show)
-  			.on('mouseleave', weaponTip.hide)
-  			.on('click', function (d) {
-          
-      // console.log(d3.select(this.parentNode))
-      d3.select(this.parentNode)
-        .append('img')
-      	.attr('src', d.picturePath.value)
-
-      	.attr('class', 'object-image')
-      	
-      
-        .attr("transform", function(d) {
-            console.log(d)
-
-            return "translate(" + projection([
-              d.long.value,
-              d.lat.value
-            ]) + ")";
-        })
-      
-      
-      
-        })
-  				
   		
+  				
+  		drawCircles(tsvData, topoJSONdata)
   					
 });
+
+function drawCircles(tsvData, topoJSONdata){
+  const countryName = tsvData.reduce((accumulator, row) => {
+        
+    accumulator[row.iso_n3] = row.name;
+
+      return accumulator;
+  }, {});
+
+
+
+  const country = feature(topoJSONdata, topoJSONdata.objects.countries);
+    g.selectAll('path')
+      .data(country.features)
+      .enter()
+      .append('path')
+      .attr('class', 'country')
+      .attr('d', d => pathGenerator(d))
+    // .append('title')
+    // 	.text(d => countryName[d.id]);
+
+g.selectAll('circle')
+  .data(places)
+      .enter()
+  .append('g')
+    .attr('id', d => d.title.value)
+  .append("circle")
+      .attr("r", 1)
+      .attr("transform", function(d) {
+
+
+      return "translate(" + projection([
+        d.long,
+        d.lat
+      ]) + ")";
+      })
+    .style('fill', function(d){
+
+      return colorscale(d.weaponFunction)
+    })
+    .on('mouseenter', weaponTip.show)
+    .on('mouseleave', weaponTip.hide)
+    .on('click', function (d) {
+      
+      // console.log(d3.select(this.parentNode))
+      d3.select('.sidebar-wrapper')
+      .select('text')
+      .data(places)
+          .text(d.title);
+
+      d3.select('#heritage')
+        .text(function(){
+          return `Plaats van geografische herkomst: ${ d.land }`;
+        })
+      
+      d3.select('.sidebar-wrapper').select('#content').select('.img')
+      .attr('xlink:href', d.picturePath)
+
+
+          console.log(d.title);
+      
+    // .attr('src', d.picturePath)
+
+    // .attr('class', 'object-image')
+    
+  
+    // .attr("transform", function(d) {
+    //     console.log(d)
+
+    //     return "translate(" + projection([
+    //       d.long,
+    //       d.lat
+    //     ]) + ")";
+    // })
+  
+  
+  
+    })
+}
 
 }

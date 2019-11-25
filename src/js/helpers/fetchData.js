@@ -1,9 +1,13 @@
+import { type } from "os";
+
 async function getData(url, query){
     const newQuery = createQuery(url, query);
     const fetch = await fetchData(newQuery, 'json');
     const data = await dataResponse(fetch, toJSON);
+    console.log(data)
+    const clean = cleanObjects(data.results.bindings);
     
-    return data;
+    return clean;
 }
 
 function createQuery( url, query ){
@@ -37,6 +41,21 @@ async function toJSON( response ){
     let res = await jsonData.json();
 
     return res;
+}
+
+function cleanObjects(array){
+    return array.map(obj => {
+        return{
+            title: obj.title.value,
+            plaats: obj.plaats.value,
+            plaatsnaam: obj.plaatsnaam.value,
+            land: obj.landNaam.value,
+            picturePath: obj.picturePath.value,
+            weaponFunction: obj.typeLabel.value,
+            lat: obj.lat.value,
+            long: obj.long.value
+        }
+    })
 }
 
 export { getData }
