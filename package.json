@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "rollup": "latest"
+  },
+  "dependencies": {
+    "d3": "^5.14.2",
+    "d3-tip": "^0.9.1",
+    "topojson": "^3.0.2"
+  }
+}
