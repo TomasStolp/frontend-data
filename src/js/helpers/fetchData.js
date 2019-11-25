@@ -54,7 +54,7 @@ function cleanObjects(array){
             weaponFunction: obj.typeLabel.value,
             lat: obj.lat.value,
             long: obj.long.value
-        }
+        } 
     })
 }
 
