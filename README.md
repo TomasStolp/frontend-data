@@ -75,9 +75,13 @@ Ik haal met de bovenstaande query objecten op met de volgende properties:
 
 ## Credits
 Eyob voor het helpen met bundlers.
-Laurens voor de voorbeelden, nogmaals voor de legend in d3 en de runquery die ik als basis heb gebruikt.
+Laurens voor de voorbeelden, nogmaals voor de legend in d3, de runquery die ik als basis heb gebruikt en de manier waarop je objecten kunt opschonen.
 Ramon voor alle feedback op mijn wiki en alle mentale support en de bug fixes.
 
 Voor het plotten van cirlces op de map: [link](http://bl.ocks.org/lokesh005/7640d9b562bf59b561d6)
 
 [Curran Kelleher](https://www.youtube.com/channel/UCSwd_9jyX4YtDYm9p9MxQqw) voor alle tutorials en een beter begrip van D3 door het wat luchtiger te maken.
+
+
+
+Nick voor het laatste puzzelstukje van exit().remove().
