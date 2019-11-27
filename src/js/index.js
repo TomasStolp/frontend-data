@@ -180,12 +180,12 @@ function createSidebar(){
 
     const legendWrapper = svg.append('g')
     .attr("class", "legend-group");
-    // .on('click', console.log(event.target))
+    
 
   legendWrapper.append("rect")
     .attr("x", 5)
     .attr("class", "legend-wrapper");
-
+    // .on('click', console.log('f'));
 
   const legend = legendWrapper.selectAll(".legend")
     .data(colorscale.domain())
@@ -230,7 +230,7 @@ function createSidebar(){
   ]).then(([tsvData, topoJSONdata]) => {
 
     drawMap(tsvData, topoJSONdata)
-    drawCircles(weaponGroups[5].values)
+    // drawCircles(weaponGroups[5].values)
 
     createSidebar()
     createLegend();
@@ -266,13 +266,54 @@ function createSidebar(){
 
   function drawCircles(data){
     
-    g.selectAll('circle')
-    .exit().remove()
-      .data( data )
-  
-      .enter()
-      .append('g')
-      .attr('id', d => d.title)
+    const circles = g.selectAll('circle');
+      
+      circles.data( data )
+
+      // Update
+
+      .attr("r", 1)
+      .attr("transform", function (d) {
+
+
+        return "translate(" + projection([
+          d.long,
+          d.lat
+        ]) + ")";
+      })
+      .style('fill', function (d) {
+
+        return colorscale(d.weaponFunction)
+      })
+      .on('mouseenter', weaponTip.show)
+      .on('mouseleave', weaponTip.hide)
+      .on('click', function (d) {
+
+        // console.log(d3.select(this.parentNode))
+        d3.select('.sidebar-wrapper')
+          .select('text')
+          .data(places)
+          .text(d.title);
+
+        d3.select('#heritage')
+          .text(function () {
+            return `Plaats van geografische herkomst: ${ d.land }`;
+          })
+
+        d3.select('#content').select('.img')
+          .attr('xlink:href', d.picturePath)
+
+
+        console.log(d.title);
+
+
+      });
+
+      
+
+  // If more circles are needed 
+      circles.data(data).enter()
+
       .append("circle")
       .attr("r", 1)
       .attr("transform", function (d) {
@@ -309,7 +350,13 @@ function createSidebar(){
         console.log(d.title);
 
 
-      })
+      });
+
+      console.log(g.selectAll('circle'))
+
+    
+      circles.data(data).exit()
+        .remove()
       
   }
 
