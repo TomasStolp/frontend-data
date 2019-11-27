@@ -1,3 +1,7 @@
+// Internal modules
+import {
+  capatalize
+} from './helpers/textTransformation';
 import {
   getData
 } from './helpers/fetchData.js';
@@ -5,6 +9,8 @@ import {
   query
 } from './helpers/query.js';
 
+
+// External modules 
 import {
   select,
   json,
@@ -26,6 +32,9 @@ d3.tip = d3Tip;
 import {
   feature
 } from 'topojson';
+
+// Creating a tooltip for every circle on the map
+// Reference https://www.npmjs.com/package/d3-tip
 const weaponTip = d3.tip().attr('class', 'd3-tip').html(function (d) {
   return d.title;
 });
@@ -38,8 +47,13 @@ const svg = select('svg')
   .attr('height', svgHeight)
 
   .call(weaponTip);
+
+
+// Two lines from example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
 const projection = geoMercator();
 const pathGenerator = geoPath().projection(projection);
+
+
 const g = svg.append('g');
 const legendLineheight = 18;
 
@@ -48,6 +62,7 @@ const legendLineheight = 18;
 const url = "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-38/sparql";
 
 
+// Own function to get data, the helper function to create the query is based on Laurens his runquery example
 
 getData(url, query).then(data => {
   // console.log(data.results.bindings)
@@ -55,11 +70,6 @@ getData(url, query).then(data => {
 
   // console.log(data)
 
-  
-
- 
-
-  
   initD3(data)
 
   // createDropdown(weaponGroups);
@@ -69,175 +79,214 @@ getData(url, query).then(data => {
   return data;
 })
 
-function createDropdown(data){
-  const dropdown = d3.select('select');
-  
-  // const testArray = data.map(obj => obj.key)
-
-  // testArray
-
-  dropdown.selectAll('option')
-  .data(data)
-  .enter()
-  .append('option')
-  .attr('value', d => d.key)
-    .text(d => d.key)
-}
-
-
-
-
+// Own init function, purely to pass the data when it's fetched and transformed
 
 function initD3(places) {
 
-
+  // categories
   const cats = places.map((entry) => {
     return entry.weaponFunction;
   });
 
-  // console.log(d3)
 
-
+  // Learned this together with Ramon. Thanks to him I got a better understanding on scaleOrdinal schemecategory
   const colorscale = d3.scaleOrdinal()
     .domain(cats)
     .range(d3.schemeCategory10);
 
+  // from example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
   g.append('path')
     .attr('class', 'sphere')
     .attr('d', pathGenerator({
       type: 'Sphere'
     }));
 
-
-
-
-
-  svg.call(zoom().scaleExtent([0.5, 40]).on('zoom', () => {
-    var transform = event.transform;
+  /* from example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
+     Big credits to Lennart. Thanks to him I can put a limit on zooming and on zoom, 
+     the circles will scale according to a factor I couldn't figure out. 
+  */
+  svg.call(zoom().scaleExtent([3, 40]).on('zoom', () => {
 
     g.attr('transform', event.transform);
     let zoomLevel = d3.event.transform.k;
     g.selectAll('circle').attr('r', (43 - zoomLevel) / 30);
 
-    // console.log((16 - zoomLevel) / 16)
-
   }));
 
+  // Looked at the nest function and how Laurens uses the nest function.
   const weaponGroups = d3.nest()
-  .key(function(d) { return d.weaponFunction; })
-  .entries(places);
-
-
-function createSidebar(){
-  const sidebarWrapper = svg.append('g')
-    .attr("class", "sidebar-wrapper")
-    .style('transform', `translateX(${innerWidth - 400}px`)
-    .attr('height', window.innerHeight)
-    .attr('width', 400);
-
-  const sidebarWidth = sidebarWrapper.attr('width');
-  const sidebarHeight = sidebarWrapper.attr('height');
-
-  const sidebar = sidebarWrapper.append('rect')
-    .attr('class', 'sidebar')
-    .attr('height', sidebarHeight)
-    .attr('width', sidebarWidth);
-
-  const sidebarContent = sidebarWrapper.append('g')
-    .attr('id', 'content')
-    .style('transform', `translate(${30}px, ${40}px`)
-    .attr('height', sidebarHeight - 20)
-    .attr('width', sidebarWidth - 20);
-
-  const title = sidebarContent.append('text')
-    .attr('id', 'title')
-    .text();
-
-  const herkomst = sidebarContent.append('text')
-    .attr('id', 'heritage')
-    .text('Plaats van geografische herkomst:')
-    .style('transform', `translateY(${(sidebarHeight / 3) * 1.5}px)`);
-
-  const img = sidebarContent.append('image')
-    .attr('class', 'img');
-}
-
-
-
-    function selectData(category){
-
-      const newArray = weaponGroups.filter(item => item.key == category);
-      console.log(newArray[0].values)
-      drawCircles(newArray[0].values)
-
-      return;
-    
-    }
-
-    // function updateCircles
-
-   function createLegend(){
-
-    const legendWrapper = svg.append('g')
-    .attr("class", "legend-group");
-    
-
-  legendWrapper.append("rect")
-    .attr("x", 5)
-    .attr("class", "legend-wrapper");
-    // .on('click', console.log('f'));
-
-  const legend = legendWrapper.selectAll(".legend")
-    .data(colorscale.domain())
-    .enter()
-    .append("g")
-    .attr("class", "legend")
-    .attr('data-category', d => d)
-    .attr("transform", function (d, i) {
-      return "translate(0," + i * 20 + ")";
+    .key(function (d) {
+      return d.weaponFunction;
     })
-    .on('click', function(){ 
-      selectData(d3.event.target.parentNode.dataset.category)
-      // console.log(d)
-    })
+    .entries(places);
 
-  legend.append("rect")
-    .attr("x", 185 - 18)
-    .attr("width", 18)
-    .attr("height", 18)
-    .style("fill", colorscale);
+  // More of my own stuff
+  function createSidebar() {
+    const sidebarWrapper = svg.append('g')
+      .attr("class", "sidebar-wrapper")
+      .style('transform', `translateX(${innerWidth - 400}px`)
+      .attr('height', window.innerHeight)
+      .attr('width', 400);
 
-  legend.append("text")
-    .attr("x", 185 - 24)
-    .attr("y", 9)
-    .attr("dy", ".35em")
-    .attr("class", "legend-text")
+    const sidebarWidth = sidebarWrapper.attr('width');
+    const sidebarHeight = sidebarWrapper.attr('height');
 
-    .text(function (d) {
-      return d;
-    })
+    const sidebar = sidebarWrapper.append('rect')
+      .attr('class', 'sidebar')
+      .attr('height', sidebarHeight)
+      .attr('width', sidebarWidth);
 
-  legendWrapper
-    .style("transform", "translate(-200px, 203px)");
-  legendWrapper
-    .transition().duration(2000)
-    .style("transform", "translate(10px, 203px)");
+    const sidebarContent = sidebarWrapper.append('g')
+      .attr('id', 'content')
+      .style('transform', `translate(${30}px, ${40}px`)
+      .attr('height', sidebarHeight - 20)
+      .attr('width', sidebarWidth - 20);
+
+
+    // I append a title, yet leave it empty till it's updated by clicking on a circle
+    const title = sidebarContent.append('text')
+      .attr('id', 'title')
+      .text();
+
+    const herkomst = sidebarContent.append('text')
+      .attr('id', 'heritage')
+      .text('Plaats van geografische herkomst:')
+      .style('transform', `translateY(${(sidebarHeight / 3) * 1.5}px)`);
+
+    const img = sidebarContent.append('image')
+      .attr('class', 'img');
+  }
+
+
+
+  function selectData(category) {
+
+    // Wrote this myself.
+    const newArray = weaponGroups.filter(item => {
+      return item.key == category
+    }).reduce(item => item)
+
+    console.log(newArray)
+    drawCircles(newArray.values)
+
+    return;
 
   }
+
+
+  function createLegend() {
+    // Wrote this myself
+    const legendWrapper = svg.append('g')
+      .attr("class", "legend");
+
+
+    legendWrapper
+      .append("rect")
+      .attr("x", 5)
+      .attr("class", "legend-wrapper");
+    // .on('click', console.log('f'));
+    let clickCount = 0;
+    const legendContainer = legendWrapper.append('g')
+      .attr('class', 'legend-container')
+      .attr('data-legend', 'container')
+      .on('click', function () {
+
+        // console.log(event.target)\
+
+        /* Event delegation (a little ugly, yet better than multiple eventlisteners)
+
+          Works pretty much the same way as a normal eventlistener (event), exept that the 
+          event object is available already within the eventlistener.
+
+          If the parent of all legend items it's data-legend value equals container,
+          I know I'm in the right place. Itemparent is the legend item it's parent group which holds
+          the text and the rect. That group contains the category and I can put an active class on it.
+
+        */
+        const upperParent = event.target.parentNode.parentNode.dataset.legend;
+
+
+        if (upperParent === 'container') {
+          const itemParent = event.target.parentNode;
+
+          legendContainer.selectAll('.legend-item')
+            .classed('active', false)
+            .attr('class', 'inactive');
+
+          // if(clickCount % 2 === 0){
+          //   console.log('fefefef')
+          itemParent.classList.add('active');
+          //   clickCount++;
+          // }else{
+          //   clickCount = 0;
+          //   console.log('yeaa?')
+          //   itemParent.classList.remove('active');  
+          // }
+
+          // Call function and give category name of the legend-item group as argument
+          selectData(itemParent.dataset.category)
+        }
+
+
+      })
+
+    const legend = legendContainer.selectAll(".legend")
+      .data(colorscale.domain())
+      .enter()
+      .append("g")
+      .attr("class", "legend-item")
+      .attr('data-category', d => d)
+      .attr("transform", function (d, i) {
+        return "translate(0," + i * 35 + ")";
+      })
+      .on('click', function () {
+        // selectData(d3.event.target.parentNode.dataset.category)
+        // console.log(d)
+      })
+
+    legend.append("rect")
+      .attr("x", 185 - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", colorscale);
+
+    legend.append("text")
+      .attr("x", 185 - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .attr("class", "legend-text")
+
+      .text(function (d) {
+        return capatalize(d);
+      })
+
+    legendWrapper
+      .style("transform", "translate(-200px, 203px)");
+    legendWrapper
+      .transition().duration(2000)
+      .style("transform", "translate(10px, 203px)");
+
+  }
+
+  // from example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
+
   Promise.all([
     tsv('https://unpkg.com/world-atlas@1.1.4/world/50m.tsv'),
     json('https://unpkg.com/world-atlas@1.1.4/world/50m.json')
   ]).then(([tsvData, topoJSONdata]) => {
 
+    
     drawMap(tsvData, topoJSONdata)
-    // drawCircles(weaponGroups[5].values)
 
+    // drawCircles(weaponGroups[0].values)
+    
+// Call my own functions
     createSidebar()
-    createLegend();
+    createLegend()
 
   });
 
-
+// from example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
   function drawMap(tsvData, topoJSONdata) {
     const countryName = tsvData.reduce((accumulator, row) => {
 
@@ -264,11 +313,13 @@ function createSidebar(){
 
   }
 
-  function drawCircles(data){
-    
+  // Based on example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
+  // But added the update pattern, added the tooltip on hover, added the sidebar content update.
+  function drawCircles(data) {
+
     const circles = g.selectAll('circle');
-      
-      circles.data( data )
+
+    circles.data(data)
 
       // Update
 
@@ -309,10 +360,10 @@ function createSidebar(){
 
       });
 
-      
 
-  // If more circles are needed 
-      circles.data(data).enter()
+
+    // If more circles are needed 
+    circles.data(data).enter()
 
       .append("circle")
       .attr("r", 1)
@@ -328,6 +379,7 @@ function createSidebar(){
 
         return colorscale(d.weaponFunction)
       })
+      // .transition().duration(1000)
       .on('mouseenter', weaponTip.show)
       .on('mouseleave', weaponTip.hide)
       .on('click', function (d) {
@@ -352,12 +404,12 @@ function createSidebar(){
 
       });
 
-      console.log(g.selectAll('circle'))
+    console.log(g.selectAll('circle'))
 
-    
-      circles.data(data).exit()
-        .remove()
-      
+
+    circles.data(data).exit()
+      .remove()
+
   }
 
 }
