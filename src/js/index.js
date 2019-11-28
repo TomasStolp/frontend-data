@@ -99,7 +99,7 @@ function initD3(places) {
      Big credits to Lennart. Thanks to him I can put a limit on zooming and on zoom, 
      the circles will scale according to a factor I couldn't figure out. 
   */
-  svg.call(zoom().scaleExtent([3, 40]).on('zoom', () => {
+  svg.call(zoom().scaleExtent([1, 40]).on('zoom', () => {
 
     g.attr('transform', event.transform);
     let zoomLevel = d3.event.transform.k;
@@ -141,9 +141,15 @@ function initD3(places) {
     const title = sidebarContent.append('text')
       .attr('id', 'title')
       .text();
+    
 
-    const herkomst = sidebarContent.append('text')
-      .attr('id', 'heritage')
+    const herkomstLand = sidebarContent.append('text')
+      .attr('id', 'heritage-country')
+      .text('Land van geografische herkomst:')
+      .style('transform', `translateY(${(sidebarHeight / 4) * 1.5}px)`);
+
+    const herkomstPlace = sidebarContent.append('text')
+      .attr('id', 'heritage-place')
       .text('Plaats van geografische herkomst:')
       .style('transform', `translateY(${(sidebarHeight / 3) * 1.5}px)`);
 
@@ -350,10 +356,10 @@ function initD3(places) {
           .data(places)
           .text(d.title);
 
-        d3.select('#heritage')
+        d3.select('#heritage-place')
           .text(function () {
-            return `Plaats van geografische herkomst: ${ d.land }`;
-          })
+            return `Land van geografische herkomst: ${ d.plaatsnaam }`;
+          });
 
         d3.select('#content').select('.img')
           .attr('xlink:href', d.picturePath)
@@ -380,10 +386,15 @@ function initD3(places) {
           .data(places)
           .text(d.title);
 
-        d3.select('#heritage')
+        d3.select('#heritage-country')
           .text(function () {
-            return `Plaats van geografische herkomst: ${ d.land }`;
-          })
+            return `Land van geografische herkomst: ${ d.land }`;
+          });
+
+        d3.select('#heritage-place')
+        .text(function () {
+          return `Plaats van geografische herkomst: ${ d.plaatsnaam }`;
+        })
 
         d3.select('#content').select('.img')
           .attr('xlink:href', d.picturePath)
