@@ -1,4 +1,4 @@
-* {
+*{
   font-family: sans-serif;
 }
 
@@ -8,64 +8,65 @@ body {
   background-color: grey;
 }
 
-h1 {
+h1{
   font-family: sans-serif;
   padding: 3rem 2rem;
   color: #fff;
   background-color: black;
   margin: -.5rem 0 0 0;
+  
 }
 
-.d3-tip {
-  color: #fff;
+.d3-tip{
+	color: #fff;
 }
 
-.legend-container {
-  -webkit-transform: translate(25px, 20px);
-          transform: translate(25px, 20px);
+
+.legend-container{
+  transform: translate(25px, 20px);
 }
 
-.legend-wrapper {
-  fill: rgba(0, 0, 0, 0.52);
+.legend-wrapper{
+	fill: hsla(0, 0%, 0%, 0.52);
   width: 17em;
   height: 15rem;
 }
 
-.legend-item:not(.active) text {
+.legend-item:not(.active) text{
   opacity: 0.2;
   cursor: pointer;
 }
 
-.legend-item:not(.active) text:hover {
+.legend-item:not(.active) text:hover{
   opacity: 0.5;
 }
 
-.legend-text {
-  text-anchor: end;
+.legend-text{
+	text-anchor: end;
   fill: #fff;
   font-weight: bold;
   font-size: 1rem;
   font-family: sans-serif;
 }
 
-.country {
-  fill: black;
-  stroke: grey;
+.country{
+	fill: black;
+	stroke: grey;
   stroke-width: 0.05px;
 }
 
 /* .country:hover{
   fill: hsla(0, 0%, 27%, 0.7);
 } */
-circle:hover {
+
+circle:hover{
   cursor: pointer;
   stroke: red;
   stroke-width: 0.05px;
 }
 
-section {
-  -webkit-box-shadow: 2px 3px 3px  black;
-          box-shadow: 2px 3px 3px  black;
+section{
+  box-shadow: 2px 3px 3px  black;
   padding: .5rem 2rem;
   background-color: #272727;
   color: #fff;
@@ -73,28 +74,27 @@ section {
   margin: .5rem;
 }
 
-.sphere {
+
+.sphere{
   fill: grey;
-  cursor: -webkit-grab;
   cursor: grab;
 }
 
-.object-image {
-  width: 30px;
+.object-image{
+	width: 30px;
   height: 30px;
 }
 
-.sidebar {
+.sidebar{
   fill: #272727;
 }
 
-#content text {
+#content text{
   fill: #fff;
   font-family: sans-serif;
 }
 
-.img {
+.img{
   width: 300px;
   height: 300px;
 }
-/*# sourceMappingURL=styles.css.map */
