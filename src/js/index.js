@@ -16,18 +16,20 @@ import {
   json,
   tsv,
   geoPath,
-  geoMercator,
   zoom,
   event,
-  scale
-} from "d3";
+} from "./helpers/d3Imports";
 
-import * as d3 from "d3";
+// import * as d3 from "d3";
+
+// import * as d3 from './helpers/d3Imports';
+
+// console.log(d3)
 
 import d3Tip from "d3-tip";
-d3.tip = d3Tip;
+// d3.tip = d3Tip;
 
-
+import { geoFahey } from 'd3-geo-projection';
 
 import {
   feature
@@ -35,7 +37,7 @@ import {
 
 // Creating a tooltip for every circle on the map
 // Reference https://www.npmjs.com/package/d3-tip
-const weaponTip = d3.tip().attr('class', 'd3-tip').html(function (d) {
+const weaponTip = tip().attr('class', 'd3-tip').html(function (d) {
   return d.title;
 });
 
@@ -50,7 +52,7 @@ const svg = select('svg')
 
 
 // Two lines from example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
-const projection = geoMercator();
+const projection = geoFahey();
 const pathGenerator = geoPath().projection(projection);
 
 
@@ -90,7 +92,7 @@ function initD3(places) {
 
 
   // Learned this together with Ramon. Thanks to him I got a better understanding on scaleOrdinal schemecategory
-  const colorscale = d3.scaleOrdinal()
+  const colorscale = scaleOrdinal()
     .domain(cats)
     .range(d3.schemeCategory10);
 
@@ -211,7 +213,7 @@ function initD3(places) {
 
           legendContainer.selectAll('.legend-item')
             .classed('active', false)
-            .attr('class', 'inactive');
+            .attr('class', 'legend-item');
 
           // if(clickCount % 2 === 0){
           //   console.log('fefefef')
@@ -315,6 +317,7 @@ function initD3(places) {
 
   // Based on example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
   // But added the update pattern, added the tooltip on hover, added the sidebar content update.
+  // Added usefull transition
   function drawCircles(data) {
 
     const circles = g.selectAll('circle');
@@ -322,20 +325,29 @@ function initD3(places) {
     circles.data(data)
 
       // Update
+      
+      .transition()
+        .delay((d, i)=>{
+          return i * 1;
+        })
+        .duration(700)
+        .ease(d3.easeQuadOut)
+        .attr("transform", function (d) {
 
-      .attr("r", 1)
-      .attr("transform", function (d) {
 
+          return "translate(" + projection([
+            d.long,
+            d.lat
+          ]) + ")";
+        })
+        .style('fill', function (d) {
 
-        return "translate(" + projection([
-          d.long,
-          d.lat
-        ]) + ")";
-      })
-      .style('fill', function (d) {
-
-        return colorscale(d.weaponFunction)
-      })
+          return colorscale(d.weaponFunction)
+        })
+      .attr("r", 1);
+      
+      
+      circles
       .on('mouseenter', weaponTip.show)
       .on('mouseleave', weaponTip.hide)
       .on('click', function (d) {
@@ -365,8 +377,10 @@ function initD3(places) {
     // If more circles are needed 
     circles.data(data).enter()
 
+    
+
       .append("circle")
-      .attr("r", 1)
+      
       .attr("transform", function (d) {
 
 
@@ -379,8 +393,15 @@ function initD3(places) {
 
         return colorscale(d.weaponFunction)
       })
-      // .transition().duration(1000)
-      .on('mouseenter', weaponTip.show)
+      .transition()
+        .delay((d, i)=>{
+          return i * 1;
+        })
+        .duration(700)
+        .ease(d3.easeQuadOut)
+        .attr("r", 1);
+
+      circles.on('mouseenter', weaponTip.show)
       .on('mouseleave', weaponTip.hide)
       .on('click', function (d) {
 
