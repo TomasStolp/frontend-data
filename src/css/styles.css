@@ -28,6 +28,15 @@ h1{
   height: 10rem;
 }
 
+.legend-item:not(.active) text{
+  opacity: 0.2;
+  cursor: pointer;
+}
+
+.legend-item:not(.active) text:hover{
+  opacity: 0.5;
+}
+
 .legend-text{
 	text-anchor: end;
   fill: #fff;
@@ -74,8 +83,4 @@ circle:hover{
 .img{
   width: 300px;
   height: 300px;
-}
-
-.active text{
-  fill: red;
 }

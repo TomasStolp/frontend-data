@@ -7,7 +7,12 @@ import {
     geoPath,
     zoom,
     event,
+    tip
   } from "d3";
+
+//   import{
+//       tip
+//   } from "d3-tip"
 
 export default {
     select:selection,
@@ -15,5 +20,6 @@ export default {
     tsv:tsv,
     geoPath:geoPath,
     zoom:zoom,
-    event:selection
+    event:selection,
+    tip: tip
 };

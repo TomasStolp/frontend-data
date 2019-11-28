@@ -18,16 +18,12 @@ import {
   geoPath,
   zoom,
   event,
-} from "./helpers/d3Imports";
+} from "d3";
 
-// import * as d3 from "d3";
-
-// import * as d3 from './helpers/d3Imports';
-
-// console.log(d3)
+import * as d3 from "d3";
 
 import d3Tip from "d3-tip";
-// d3.tip = d3Tip;
+d3.tip = d3Tip;
 
 import { geoFahey } from 'd3-geo-projection';
 
@@ -37,7 +33,7 @@ import {
 
 // Creating a tooltip for every circle on the map
 // Reference https://www.npmjs.com/package/d3-tip
-const weaponTip = tip().attr('class', 'd3-tip').html(function (d) {
+const weaponTip = d3.tip().attr('class', 'd3-tip').html(function (d) {
   return d.title;
 });
 
@@ -50,16 +46,12 @@ const svg = select('svg')
 
   .call(weaponTip);
 
-
 // Two lines from example Curran Kelleher: https://www.youtube.com/watch?v=Qw6uAg3EO64&t=42s
 const projection = geoFahey();
 const pathGenerator = geoPath().projection(projection);
 
-
 const g = svg.append('g');
 const legendLineheight = 18;
-
-
 
 const url = "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/services/NMVW-38/sparql";
 
@@ -70,7 +62,7 @@ getData(url, query).then(data => {
   // console.log(data.results.bindings)
   // initD3(data)
 
-  // console.log(data)
+  console.log(data)
 
   initD3(data)
 
@@ -92,7 +84,7 @@ function initD3(places) {
 
 
   // Learned this together with Ramon. Thanks to him I got a better understanding on scaleOrdinal schemecategory
-  const colorscale = scaleOrdinal()
+  const colorscale = d3.scaleOrdinal()
     .domain(cats)
     .range(d3.schemeCategory10);
 
@@ -376,32 +368,9 @@ function initD3(places) {
 
     // If more circles are needed 
     circles.data(data).enter()
-
-    
-
       .append("circle")
-      
-      .attr("transform", function (d) {
 
-
-        return "translate(" + projection([
-          d.long,
-          d.lat
-        ]) + ")";
-      })
-      .style('fill', function (d) {
-
-        return colorscale(d.weaponFunction)
-      })
-      .transition()
-        .delay((d, i)=>{
-          return i * 1;
-        })
-        .duration(700)
-        .ease(d3.easeQuadOut)
-        .attr("r", 1);
-
-      circles.on('mouseenter', weaponTip.show)
+      .on('mouseenter', weaponTip.show)
       .on('mouseleave', weaponTip.hide)
       .on('click', function (d) {
 
@@ -423,7 +392,26 @@ function initD3(places) {
         console.log(d.title);
 
 
-      });
+      })
+      
+      .attr("transform", function (d) {
+        return "translate(" + projection([
+          d.long,
+          d.lat
+        ]) + ")";
+      })
+      .style('fill', function (d) {
+        return colorscale(d.weaponFunction)
+      })
+      .transition()
+        .delay((d, i)=>{
+          return i * 1;
+        })
+        .duration(700)
+        .ease(d3.easeQuadOut)
+        .attr("r", 1);
+
+      
 
     console.log(g.selectAll('circle'))
 
