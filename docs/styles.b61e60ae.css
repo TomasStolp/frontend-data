@@ -1,0 +1,88 @@
+*{
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0px;
+  overflow: hidden;
+  background-color: grey;
+}
+
+h1{
+  font-family: sans-serif;
+  padding: 3rem 2rem;
+  color: #fff;
+  background-color: black;
+  margin: -.5rem 0 0 0;
+  
+}
+
+.d3-tip{
+	color: #fff;
+}
+
+
+.legend-wrapper{
+	fill: hsla(0, 0%, 0%, 0.52);
+  width: 17em;
+  height: 10rem;
+}
+
+.legend-item:not(.active) text{
+  opacity: 0.2;
+  cursor: pointer;
+}
+
+.legend-item:not(.active) text:hover{
+  opacity: 0.5;
+}
+
+.legend-text{
+	text-anchor: end;
+  fill: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: sans-serif;
+}
+
+.country{
+	fill: black;
+	stroke: grey;
+  stroke-width: 0.05px;
+}
+
+/* .country:hover{
+  fill: hsla(0, 0%, 27%, 0.7);
+} */
+
+circle:hover{
+  cursor: pointer;
+  stroke: red;
+  stroke-width: 0.05px;
+}
+
+.sphere{
+  fill: grey;
+  cursor: grab;
+}
+
+.object-image{
+	width: 30px;
+  height: 30px;
+}
+
+.sidebar{
+  fill: #272727;
+}
+
+#content text{
+  fill: #fff;
+  font-family: sans-serif;
+}
+
+.img{
+  width: 300px;
+  height: 300px;
+}
+
+/*# sourceMappingURL=/styles.b61e60ae.css.map */
