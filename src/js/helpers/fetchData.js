@@ -1,4 +1,4 @@
-import { type } from "os";
+// import { type } from "os";
 
 async function getData(url, query){
     const newQuery = createQuery(url, query);

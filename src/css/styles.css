@@ -1,11 +1,11 @@
+*{
+  font-family: sans-serif;
+}
+
 body {
   margin: 0px;
   overflow: hidden;
   background-color: grey;
-}
-
-body:hover{
-	cursor: grab;
 }
 
 h1{
@@ -24,8 +24,17 @@ h1{
 
 .legend-wrapper{
 	fill: hsla(0, 0%, 0%, 0.52);
-  width: 15rem;
+  width: 17em;
   height: 10rem;
+}
+
+.legend-item:not(.active) text{
+  opacity: 0.2;
+  cursor: pointer;
+}
+
+.legend-item:not(.active) text:hover{
+  opacity: 0.5;
 }
 
 .legend-text{
@@ -42,13 +51,19 @@ h1{
   stroke-width: 0.05px;
 }
 
-.country:hover{
-	cursor: pointer;
+/* .country:hover{
   fill: hsla(0, 0%, 27%, 0.7);
+} */
+
+circle:hover{
+  cursor: pointer;
+  stroke: red;
+  stroke-width: 0.05px;
 }
 
 .sphere{
   fill: grey;
+  cursor: grab;
 }
 
 .object-image{
