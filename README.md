@@ -16,26 +16,20 @@ You can clone this repository by using the command ``` git clone https://github.
 Or you can just push the green button right on the top of this page and download the repo as a zip file.
 
 ## New features
-- Sidebar wich displays information on the clicked object
-- Tooltips on hover
-
-## Features in progress
-- When the user zooms, the scattered circles need to reflect the change of scale.
-- On click parent country in sidebar, country gets centered or more detail.
-
-## New features
 - When zooming the objects scale accordingly.
 - On hover you see the title of an object
 - Highlighting legend items
 - Filtering by functional category
-- Weapon detail window
+- Sidebar wich displays information on the clicked object
 
 ## Features
 - Datavisualisation in d3
 - Functional data fetch and transform pattern
 - Cleaning pattern for language column student survey data
 
-## Future 
+## Known bugs
+- When you change the filter while you're zoomed in, the zooming factor on the circles isn't triggered. Because the factor applies only when the zoom event is triggered right now.
+- The zoom factor is fine-tuned but still doesn't entirely give a pleasing result. It's good enough, but can be improved.
 
 ## Demo Datavis
 [Find it here](https://frontend-data-tomas.netlify.com/)
@@ -86,10 +80,15 @@ LIMIT 10000`;
 ```
 
 ## Credits
-Ivo, voor alle support vanaf week 1 met het leren over LOD en SPARQL.
-Eyob voor het helpen met het bundelen van files d.m.v.
+Ivo, for all the support from week 1 and on, learning me and others about LOD and SPARQL.
+
+Eyob for helping me out with bundlers.
+
 Laurens voor de voorbeelden, nogmaals voor de legend in d3, de runquery die ik als basis heb gebruikt en de manier waarop je objecten kunt opschonen.
-Ramon voor alle feedback op mijn wiki en alle mentale support en de bug fixes.
+
+Ramon voor alle feedback op mijn wiki en alle mentale support, de bug fixes waar we samen doorheen gingen en alle overige tijd waarin we elkaar erdoorheen hebben getrokken.
+
+Het Tooltips: (https://www.npmjs.com/package/d3-tip)[https://www.npmjs.com/package/d3-tip]
 
 Voor het plotten van cirlces op de map: [link](http://bl.ocks.org/lokesh005/7640d9b562bf59b561d6)
 
