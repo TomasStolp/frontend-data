@@ -40,7 +40,7 @@ Or you can just push the green button right on the top of this page and download
 ## Variabelen
 Ik haal met de bovenstaande query objecten op met de volgende properties:
 
-**title : is vanzelfsprekend de titel van het object**
+**title : is the title of the objectt**
 
 **typeLabel: is de functie van het wapen, bijv. ceremonieel.**
 
