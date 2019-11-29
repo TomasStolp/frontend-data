@@ -59,16 +59,9 @@ const url = "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ivo/NMVW/servic
 // Own function to get data, the helper function to create the query is based on Laurens his runquery example
 
 getData(url, query).then(data => {
-  // console.log(data.results.bindings)
-  // initD3(data)
-
   console.log(data)
 
   initD3(data)
-
-  // createDropdown(weaponGroups);
-
-
 
   return data;
 })
