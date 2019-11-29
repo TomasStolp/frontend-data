@@ -23,16 +23,38 @@ Or you can just push the green button right on the top of this page and download
 - When the user zooms, the scattered circles need to reflect the change of scale.
 - On click parent country in sidebar, country gets centered or more detail.
 
+## New features
+- When zooming the objects scale accordingly.
+- On hover you see the title of an object
+- Highlighting legend items
+- Filtering by functional category
+- Weapon detail window
+
 ## Features
 - Datavisualisation in d3
 - Functional data fetch and transform pattern
 - Cleaning pattern for language column student survey data
 
+## Future 
+
 ## Demo Datavis
-[Find it here!](https://tomass666.github.io/functional-programming/)
+[Find it here](https://frontend-data-tomas.netlify.com/)
+
+## Variabelen
+Ik haal met de bovenstaande query objecten op met de volgende properties:
+
+**title : is vanzelfsprekend de titel van het object**
+
+**typeLabel: is de functie van het wapen, bijv. ceremonieel.**
+
+**Lat en long: coördinaten (niet DMS format)**
+
+**choCount : het aantal van het object (eigenlijk niet nodig)**
+
+**plaats: deeplink naar plaats**
 
 ## Data I'm fetching
-```sql
+```sparql
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
@@ -63,21 +85,9 @@ SELECT ?title ?typeLabel ?long ?lat ?plaats (SAMPLE(?cho) as ?filtered)  (COUNT(
 LIMIT 10000`;
 ```
 
-## Variabelen
-Ik haal met de bovenstaande query objecten op met de volgende properties:
-
-**title : is vanzelfsprekend de titel van het object**
-
-**typeLabel: is de functie van het wapen, bijv. ceremonieel.**
-
-**Lat en long: coördinaten (niet DMS format)**
-
-**choCount : het aantal van het object (eigenlijk niet nodig)**
-
-**plaats: deeplink naar plaats**
-
 ## Credits
-Eyob voor het helpen met bundlers.
+Ivo, voor alle support vanaf week 1 met het leren over LOD en SPARQL.
+Eyob voor het helpen met het bundelen van files d.m.v.
 Laurens voor de voorbeelden, nogmaals voor de legend in d3, de runquery die ik als basis heb gebruikt en de manier waarop je objecten kunt opschonen.
 Ramon voor alle feedback op mijn wiki en alle mentale support en de bug fixes.
 
