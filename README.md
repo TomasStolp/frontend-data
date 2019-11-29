@@ -14,6 +14,9 @@ Data visualation for the NMVW with an additional layer of interactivity and clea
 ## Concept
 See a complete view on weapons and weaponparts their functions on a worldwide scale. The locations represent the geographical location of heritage.
 
+## Target group
+The data visualisation can be both usefull for the NMVW itself as for visitors. For the NMWV it has potential for quick insides in the location of heritage of all objects. Where only weapons are used now, it's easily expandable.
+
 ## Installation steps
 You can clone this repository by using the command ``` git clone https://github.com/TomasS666/frontend-data.git ``` in your CLI.
 Or you can just push the green button right on the top of this page and download the repo as a zip file.
