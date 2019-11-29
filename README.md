@@ -99,3 +99,6 @@ For plotting circles on the map and how Curran created the map itself: [link](ht
 
 
 Nick for the remaing piece of the puzzle of .exit().remove().
+
+## License
+[Copyright (c) 2019 Tomas S](https://github.com/TomasS666/frontend-data/blob/master/LICENSE)
