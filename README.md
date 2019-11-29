@@ -82,6 +82,14 @@ SELECT ?title ?typeLabel ?long ?lat ?plaats (SAMPLE(?cho) as ?filtered)  (COUNT(
 LIMIT 10000`;
 ```
 
+## .gitignore
+```
+node_modules
+dist
+
+```
+The following files are ignored when I commit.
+
 ## Credits
 Ivo, for all the support from week 1 and on, learning me and others about LOD and SPARQL.
 
