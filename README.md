@@ -9,7 +9,7 @@
 Data visualation for the NMVW with an additional layer of interactivity and cleanup pattern for the NMVW API data.
 
 ## Concept
-See a complete view on weapons and weaponparts their functions on a worldwide scale. The locations represent the location of heritage or the location where the object was found.
+See a complete view on weapons and weaponparts their functions on a worldwide scale. The locations represent the geographical location of heritage.
 
 ## Installation steps
 You can clone this repository by using the command ``` git clone https://github.com/TomasS666/frontend-data.git ``` in your CLI.
@@ -84,16 +84,15 @@ Ivo, for all the support from week 1 and on, learning me and others about LOD an
 
 Eyob for helping me out with bundlers.
 
-Laurens voor de voorbeelden, nogmaals voor de legend in d3, de runquery die ik als basis heb gebruikt en de manier waarop je objecten kunt opschonen.
+Laurens for the examples, again for the legend he used in d3, de runquery function which I used as a foundation of my further iterations and the way you can clean up objects.
 
-Ramon voor alle feedback op mijn wiki en alle mentale support, de bug fixes waar we samen doorheen gingen en alle overige tijd waarin we elkaar erdoorheen hebben getrokken.
+Ramon for all the feedback on my wiki, the mental support, de bug fixes which we went through together and the remaining time of which we pulled each other through.
 
-Het Tooltips: (https://www.npmjs.com/package/d3-tip)[https://www.npmjs.com/package/d3-tip]
+The tooltips: (https://www.npmjs.com/package/d3-tip)[https://www.npmjs.com/package/d3-tip]
 
-Voor het plotten van cirlces op de map: [link](http://bl.ocks.org/lokesh005/7640d9b562bf59b561d6)
+For plotting circles on the map and how Curran created the map itself: [link](http://bl.ocks.org/lokesh005/7640d9b562bf59b561d6)
 
-[Curran Kelleher](https://www.youtube.com/channel/UCSwd_9jyX4YtDYm9p9MxQqw) voor alle tutorials en een beter begrip van D3 door het wat luchtiger te maken.
+[Curran Kelleher](https://www.youtube.com/channel/UCSwd_9jyX4YtDYm9p9MxQqw) for all the tutorials and a general better understanding about d3.
 
 
-
-Nick voor het laatste puzzelstukje van exit().remove().
+Nick for the remaing piece of the puzzle of .exit().remove().
