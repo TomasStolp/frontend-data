@@ -1,7 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/bd37cbc5-a119-40a1-93e9-badcdb818313/deploy-status)](https://app.netlify.com/sites/frontend-data-tomas/deploys)
 ## Functional data - Weapon datavis
 
-![alt text](https://github.com/TomasS666/functional-programming/blob/master/wiki/weaponized-world.png "Logo Title Text 1")
+![alt text](https://github.com/TomasS666/frontend-data/blob/master/wiki/images/concept-header.png "heaeder image")
 
 [Link to Demo](https://frontend-data-tomas.netlify.com/)
 
