@@ -11,7 +11,7 @@
     "rollup": "latest"
   },
   "dependencies": {
-    "d3": "^5.14.2",
+    "d3": "^7.6.1",
     "d3-geo-projection": "^2.7.1",
     "d3-tip": "^0.9.1",
     "topojson": "^3.0.2"
